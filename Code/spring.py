@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jul 18 06:41:23 2025
-
-@author: rhizmeri
-"""
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -48,9 +41,9 @@ plt.close('all')
 
 #main program 
     
-dt   = 0.9
+dt   = 0.0001
 K    = 1.0
-mass = 1.0
+mass = 10.0
 x0   = 2.0
 v0   = 1.0
 tf   = 50
@@ -88,10 +81,10 @@ xpath = path[:, 0]
 vpath = path[:, 1]
     
 omega = np.sqrt(K/mass)
-disp  = x0*np.cos(omega * time) + v0*np.sin(omega * time)
+disp  = x0*np.cos(omega * time) + (v0/omega)*np.sin(omega * time)
 #harmonic form
 #disp = np.sqrt(x0**2 + v0**2) * np.sin(time + np.arctan(x0/v0))
-vel = -x0*omega*np.sin(omega*time) + v0*omega*np.cos(omega*time)
+vel = -x0*omega*np.sin(omega*time) + v0*np.cos(omega*time)
 
 xnew = solution[:, 0]
 vnew = solution[:, 1]
