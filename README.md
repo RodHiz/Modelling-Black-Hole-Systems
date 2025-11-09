@@ -1,6 +1,6 @@
 Below is the code for each program respectively. It's likely that the notebooks have the most recent version of the code.
 
-You can access the code but will need to make a copy in playground mode to use it.
+You can access the code and will automatically make a copy in playground mode to use it. You may get prompted that code is malicious and will steal your data, click run anyway, it won't do anything malicious.
 
 For further assistance, the 'General Relativity' notebook has been commented appropiately.
 
