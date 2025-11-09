@@ -1,5 +1,7 @@
 Below is the code for each program respectively. 
+
 You can access the code but will need to make a copy in playground mode to use it.
+
 For further assistance, the 'General Relativity' notebook has been commented appropiately.
 
 
