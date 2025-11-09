@@ -14,4 +14,5 @@ You may wish to change the constants in order to get different patterns. Which c
 | General Relativity | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1w6Ievq9PhwIuHyOWmgIqoFc1Dl43VR9v?usp=sharing) |
 
 You can also find a file with all of the [interesting images](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/b3931aa2d52cce2668cfb8c6c7ac3a4e3d19f4ae/images) I created.
+
 Here is the [LaTeX document](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69) if interested in further reading
