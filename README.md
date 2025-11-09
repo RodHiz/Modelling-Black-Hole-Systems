@@ -1,8 +1,10 @@
-Below is the code for each program respectively. 
+Below is the code for each program respectively. It's likely that the notebooks have the most recent version of the code.
 
 You can access the code but will need to make a copy in playground mode to use it.
 
 For further assistance, the 'General Relativity' notebook has been commented appropiately.
+
+You may wish to change the constants in order to get different patterns. Which can be found under 'Main Program'
 
 
 | Notebook | Launch |
