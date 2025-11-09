@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 28 14:36:32 2025
-
-@author: rhizmeri
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -30,17 +23,17 @@ plt.close('all')
 #main program
 
 GM = 1
-r0 = 4
+r0 = 6
 theta0 = 0
 rdot0 = 0
 circular_orbit = np.sqrt(GM/r0**3)
-thetadot0 = circular_orbit *1.3
+thetadot0 = circular_orbit * 1.3
 state0 = np.array([r0, theta0, rdot0, thetadot0])
 
 tellNum = 10000
 
 dt = 0.01
-tf = 500 #years
+tf = 1000 #units of time
 nstep = int(tf/dt + 1)
 path = np.zeros((nstep, 4))
 time = np.zeros(nstep)
@@ -62,7 +55,7 @@ for j in range(nstep-1):
         break
 
     elif np.mod(j, max(1, int((nstep-1)/10))) == 0:
-       print(f"{time[j]:.1f} units of time")
+       print(f"{time[j]:.0f} units of time")
     elif j == nstep - 2:
        print("simulation complete")
 
@@ -72,6 +65,7 @@ rdotPath = path[:jfinal, 2]
 thetadotPath = path[:jfinal, 3]
 time = time[:jfinal]
 
+#----------------------------------------------
 plt.figure(1)
 
 plt.plot(time, rpath)
@@ -81,6 +75,7 @@ plt.xlabel('time')
 plt.ylabel('radius')
 plt.grid('on')
 
+#----------------------------------------------
 
 plt.figure(2)
 plt.plot(time, thetapath)
@@ -90,18 +85,26 @@ plt.xlabel('time')
 plt.ylabel('theta')
 plt.grid('on')
 
+#----------------------------------------------
+
 plt.figure(3)
 xpath = rpath * np.cos(thetapath)
 ypath = rpath * np.sin(thetapath)
-plt.plot(xpath, ypath)
-plt.plot(0,0, 'o')
+
+
+plt.plot(xpath, ypath, label='Trajectory')
+plt.plot(xpath[jfinal-1], ypath[jfinal-1], 'or', label='Object')
+
 phi = np.linspace(0, 2*np.pi, 500)
 
-plt.plot(2*np.cos(phi), 2*np.sin(phi), 'k')
+plt.plot(2*np.cos(phi), 2*np.sin(phi), 'k-', label='Event Horizon')
+plt.plot(0,0, 'ok', label='Singularity')
 
-plt.title('motion of object')
+plt.title('Motion of Object')
+
 plt.grid('on')
-
+plt.legend(loc='upper left')#cahnge to 'best' if needed
+plt.tight_layout()
 plt.axis('scaled')
 
 #----------------------------------------------
