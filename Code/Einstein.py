@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 28 14:36:32 2025
-
-@author: rhizmeri
-"""
-
-#imports
 import numpy as np
 import matplotlib.pyplot as plt
+
+import matplotlib.animation as animation
 
 def rk4(f, state, dt): #Runge-Kutta integration, 4th degree
     k1 = f(state)
@@ -31,25 +25,22 @@ plt.close('all') #don't want overlapping plots
 
 GM = 1      #gravitational constant * mass of blackhole,mass of body is negligeable in comparison
 c  = 1      #speed of light
-r0 = 4     #initial radius
-theta0 = 0  #initial phase
-rdot0  = 0  #rate of change of radius
-circular_orbit = np.sqrt(GM*c**2 /(r0**2 * (r0*c**2 - 3*GM))) #always gives circular orbit
-thetadot0      = circular_orbit * 1.0001 #remove circ_orb for a constant
+r0 = 10      #initial radius
+theta0 = 0  #initial phase 
+rdot0  = 0  #rate of change of radius (velocity)
+circular_orbit = np.sqrt(GM*c**2 /(r0**3*c**2 - 3*r0**2*GM)) #always gives circular orbit
+thetadot0      = circular_orbit *1.25 #remove circ_orb for a constant
 
 #initial state of constants
 state0  = np.array([r0, theta0, rdot0, thetadot0]) 
-dt = 0.000001         #time-step, diff in time between each point
-tf = 10     #final time. 1 is the time for [fill in after research done]
+dt = 0.01         #time-step, diff in time between each point
+tf = 8000       #final time. 1 is the time for [fill in after research done]
 nstep = int(tf/dt + 1)       #maximum number of points. +1 so that even number is given
 path  = np.zeros((nstep, 4)) #4D array of initial path with state fille with zeros
 path[0,:] = state0           #initial value for path
 time  = np.zeros(nstep)      #array of each time interval, filled with zeros
 
-if tf <= 50000:
-    tf_split = 50  #prints tf, split into divisions
-else:
-    tf_split = 10
+tf_split = 10
 
 jfinal  = nstep #in case object doesn't fall in black hole
 time[0] = 0     #where do you want time to begin?
@@ -58,7 +49,7 @@ for j in range(nstep-1):
     oldstate  = path[j, :]
     newstate  = rk4(f, oldstate, dt)
     path[j+1, :] = newstate
-    if newstate[0] < 0.1: #if radius < 0.2 units
+    if newstate[0] < 0.1: #if radius < 0.1 units
         jfinal = j        #object falls in blackhole, no need for zeros to be plotted on graphs
         print("End of simulation")
         print("Object fell into black hole")
@@ -78,7 +69,7 @@ thetadotPath = path[:jfinal, 3]
 time  = time[:jfinal]
 
 #----------------------------------------------
-plt.figure('time / radius',figsize=(12,6))
+plt.figure('time / radius',figsize=(8,6))
 
 plt.xlabel('time')
 plt.ylabel('radius')
@@ -97,19 +88,24 @@ plt.grid('on')
 plt.plot(time, thetapath)
 
 #----------------------------------------------
-plt.figure('cartesian sim')
+plt.figure('cartesian sim', figsize=(6,6))
 
 xpath = rpath * np.cos(thetapath)
 ypath = rpath * np.sin(thetapath)
-plt.plot(xpath, ypath)
-plt.plot(0,0, 'ok') #center of BH is black circle
-plt.plot(xpath[jfinal-1], ypath[jfinal-1], 'or') #where is the object
-plt.title("Cartesian Simulation of object around BH",fontweight='bold',fontsize=15,pad=10)
+
+plt.plot(xpath, ypath, label='Trajectory')
+plt.plot(xpath[jfinal-1], ypath[jfinal-1], 'or', label='Object') #where is the object
 
 #creates the event horizon
 phi = np.linspace(0, 2*np.pi, 500)
-plt.plot(2*np.cos(phi), 2*np.sin(phi), 'k')
+plt.plot(2*np.cos(phi), 2*np.sin(phi), 'k', label='Event Horizon')
+
+plt.plot(0,0, 'ok',label='Singularity') #center of BH is black circle
+plt.title("Cartesian Simulation of object around BH",fontweight='bold',fontsize=15,pad=10)
+
 plt.grid('on')
+plt.legend(loc='upper left')
+plt.tight_layout()
 plt.axis('scaled')
 
 #----------------------------------------------
@@ -163,5 +159,48 @@ plt.title("Polar Simulation of object around BH",fontweight='bold',fontsize=15,p
 plt.plot(0,0,'ok') #center of BH
 plt.grid('on')
 #----------------------------------------------
+
+fig, ax = plt.subplots(figsize=(6.5, 6.5))
+
+xpath = rpath * np.cos(thetapath)
+ypath = rpath * np.sin(thetapath)
+
+# Create plot elements
+line1, = ax.plot([], [], 'b-', alpha=0.5, label='Trajectory')
+point1, = ax.plot([], [], 'ro', markersize=8, label='Object')
+center, = ax.plot([0], [0], 'ko', markersize=10, label='Singularity')
+
+# Plot reference circle
+phi = np.linspace(0, 2*np.pi, 500)
+ax.plot(2*np.cos(phi), 2*np.sin(phi), 'k-', alpha=0.3, label='Event Horizon')
+ax.set_title('Motion of Object')
+ax.legend()
+ax.grid('on')
+ax.axis('scaled')
+# Set axis limits based on trajectory
+max_extent = max(np.abs(xpath).max(), np.abs(ypath).max()) * 1.2
+ax.set_xlim(-max_extent, max_extent)
+ax.set_ylim(-max_extent, max_extent)
+         
+def init():
+    line1.set_data([], [])
+    point1.set_data([], [])
+    return line1, point1
+
+def animate(frame):
+    # Show trajectory up to current frame
+    idx = int(frame * len(xpath) / 200)
+    if idx >= len(xpath):
+        idx = len(xpath) - 1
+    
+    
+    # Show only the recent trail
+    line1.set_data(xpath[:idx], ypath[:idx])
+    point1.set_data([xpath[idx]], [ypath[idx]])
+    
+    return line1, point1
+
+anim = animation.FuncAnimation(fig, animate, init_func=init, 
+                              frames=1000, interval=1, blit=True, repeat=True)
 
 plt.show()
