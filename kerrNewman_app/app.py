@@ -562,13 +562,30 @@ with tab_3d:
     )
     st.plotly_chart(fig3d, key="plot_3d")
 
-    # Force a browser resize so the WebGL context initialises properly
+    # Force repeated resize events so Plotly's WebGL canvas initialises
     st.components.v1.html(
         """<script>
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 500);
+        (function(){
+            var delays = [200, 600, 1200, 2500, 4000];
+            delays.forEach(function(d){
+                setTimeout(function(){
+                    window.dispatchEvent(new Event('resize'));
+                    // Also try to call Plotly.Plots.resize on all plot divs
+                    if(window.Plotly){
+                        var plots = document.querySelectorAll('.js-plotly-plot');
+                        plots.forEach(function(p){ try{Plotly.Plots.resize(p);}catch(e){} });
+                    }
+                }, d);
+            });
+        })();
         </script>""",
         height=0,
+    )
+
+    st.info(
+        "💡 **3D plot not rendering?** Try resizing your browser window or "
+        "toggling fullscreen (⤢ icon in the top-right of the plot) to force "
+        "the WebGL canvas to initialise. This is a known Plotly/browser limitation."
     )
 
 # ─────────────────────────────────────────────────────────────────────────
