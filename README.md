@@ -13,7 +13,7 @@ You may wish to change the constants in order to get different patterns. Which c
 | Newtonian Mechanics | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/10RsNSvxDumjGO4HD2lw8fHDyAzQOlGa5?usp=sharing) |
 | General Relativity | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1w6Ievq9PhwIuHyOWmgIqoFc1Dl43VR9v?usp=sharing) |
 
-You can also find a file with all of the [interesting images](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/74be77010b388c879495f8fb79a8beca9c955bd8/images) I created.
+You can also find a file with all of the [interesting images](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/74be77010b388c879495f8fb79a8beca9c955bd8/images) I created for the non 3D version.
 
 Here is the [LaTeX document](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69) if interested in further reading
 
