@@ -562,6 +562,15 @@ with tab_3d:
     )
     st.plotly_chart(fig3d, key="plot_3d")
 
+    # Force a browser resize so the WebGL context initialises properly
+    st.components.v1.html(
+        """<script>
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 500);
+        </script>""",
+        height=0,
+    )
+
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: 2D Projections — all 3 planes stacked vertically
 # ─────────────────────────────────────────────────────────────────────────
