@@ -560,7 +560,7 @@ with tab_3d:
         title=f"3D Geodesic — {bh_type} (a={res.a}, Q={res.Q_BH}, q={res.q})",
         height=700, margin=dict(l=0, r=0, t=40, b=0),
     )
-    st.plotly_chart(fig3d, use_container_width=True, key="plot_3d")
+    st.plotly_chart(fig3d, key="plot_3d")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: 2D Projections — all 3 planes stacked vertically
@@ -568,17 +568,17 @@ with tab_3d:
 with tab_2d:
     st.markdown("### X – Y  (top view)")
     st.plotly_chart(make_2d_fig(res.x, res.y, "X", "Y", res, "xy"),
-                    use_container_width=True, key="plot_xy")
+                    key="plot_xy")
 
     st.markdown("---")
     st.markdown("### X – Z  (side view)")
     st.plotly_chart(make_2d_fig(res.x, res.z, "X", "Z", res, "xz"),
-                    use_container_width=True, key="plot_xz")
+                    key="plot_xz")
 
     st.markdown("---")
     st.markdown("### Y – Z")
     st.plotly_chart(make_2d_fig(res.y, res.z, "Y", "Z", res, "yz"),
-                    use_container_width=True, key="plot_yz")
+                    key="plot_yz")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Coordinates vs τ
@@ -593,7 +593,7 @@ with tab_coords:
                     annotation_text=f"r₊ = {res.r_plus:.2f}")
     fig_r.update_layout(template=PLOTLY_TEMPLATE, xaxis_title="Proper time  τ",
                         yaxis_title="r  (radial coordinate)", title="r(τ)", height=450)
-    st.plotly_chart(fig_r, use_container_width=True, key="plot_r_tau")
+    st.plotly_chart(fig_r, key="plot_r_tau")
 
     st.markdown("---")
 
@@ -604,7 +604,7 @@ with tab_coords:
                                    line=dict(color="#ffd166", width=1.5), name="θ"))
     fig_th.update_layout(template=PLOTLY_TEMPLATE, xaxis_title="Proper time  τ",
                          yaxis_title="θ  (polar angle, rad)", title="θ(τ)", height=450)
-    st.plotly_chart(fig_th, use_container_width=True, key="plot_th_tau")
+    st.plotly_chart(fig_th, key="plot_th_tau")
 
     st.markdown("---")
 
@@ -615,7 +615,7 @@ with tab_coords:
                                    line=dict(color="#06d6a0", width=1.5), name="φ"))
     fig_ph.update_layout(template=PLOTLY_TEMPLATE, xaxis_title="Proper time  τ",
                          yaxis_title="φ  (azimuthal angle, rad)", title="φ(τ)", height=450)
-    st.plotly_chart(fig_ph, use_container_width=True, key="plot_ph_tau")
+    st.plotly_chart(fig_ph, key="plot_ph_tau")
 
     st.markdown("---")
 
@@ -626,7 +626,7 @@ with tab_coords:
                                   line=dict(color="#ef476f", width=1.5), name="t"))
     fig_t.update_layout(template=PLOTLY_TEMPLATE, xaxis_title="Proper time  τ",
                         yaxis_title="Coordinate time  t", title="t(τ)", height=450)
-    st.plotly_chart(fig_t, use_container_width=True, key="plot_t_tau")
+    st.plotly_chart(fig_t, key="plot_t_tau")
 
     st.markdown("---")
 
@@ -640,7 +640,7 @@ with tab_coords:
                      annotation_text=f"Q₀ = {res.Q_init:.6f}")
     fig_qc.update_layout(template=PLOTLY_TEMPLATE, xaxis_title="Proper time  τ",
                          yaxis_title="Q", title="Carter Constant Q(τ)", height=450)
-    st.plotly_chart(fig_qc, use_container_width=True, key="plot_q_tau")
+    st.plotly_chart(fig_qc, key="plot_q_tau")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Energy
@@ -657,7 +657,7 @@ with tab_energy:
                     annotation_text=f"E₀ = {res.E_init:.6f}")
     fig_e.update_layout(template=PLOTLY_TEMPLATE, title="Energy vs Proper Time",
                         xaxis_title="Proper time  τ", yaxis_title="E", height=500)
-    st.plotly_chart(fig_e, use_container_width=True, key="plot_energy")
+    st.plotly_chart(fig_e, key="plot_energy")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Angular Momentum
@@ -673,7 +673,7 @@ with tab_angmom:
                     annotation_text=f"Lz₀ = {res.Lz_init:.6f}")
     fig_l.update_layout(template=PLOTLY_TEMPLATE, title="Angular Momentum vs Proper Time",
                         xaxis_title="Proper time  τ", yaxis_title="Lz", height=500)
-    st.plotly_chart(fig_l, use_container_width=True, key="plot_angmom")
+    st.plotly_chart(fig_l, key="plot_angmom")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Carter Constant
@@ -689,7 +689,7 @@ with tab_carter:
                     annotation_text=f"Q₀ = {res.Q_init:.6f}")
     fig_q.update_layout(template=PLOTLY_TEMPLATE, title="Carter Constant vs Proper Time",
                         xaxis_title="Proper time  τ", yaxis_title="Q", height=500)
-    st.plotly_chart(fig_q, use_container_width=True, key="plot_carter")
+    st.plotly_chart(fig_q, key="plot_carter")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Metric Norm
@@ -705,7 +705,7 @@ with tab_norm:
                     annotation_text="Expected: −1")
     fig_n.update_layout(template=PLOTLY_TEMPLATE, title="Metric Norm vs Proper Time",
                         xaxis_title="Proper time  τ", yaxis_title="g_μν ẋᵘẋᵛ", height=500)
-    st.plotly_chart(fig_n, use_container_width=True, key="plot_norm")
+    st.plotly_chart(fig_n, key="plot_norm")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Potentials
@@ -723,7 +723,7 @@ with tab_potentials:
                                        line=dict(color="#ff4060", width=1, dash="dash"), name="R(r)"))
         fig_pr.update_layout(template=PLOTLY_TEMPLATE, title="Radial: p_r² vs R(r)",
                              xaxis_title="Proper time  τ", height=400)
-        st.plotly_chart(fig_pr, use_container_width=True, key="plot_pr")
+        st.plotly_chart(fig_pr, key="plot_pr")
     with cols[1]:
         fig_pth = go.Figure()
         fig_pth.add_trace(go.Scattergl(x=res.tau, y=res.p_th ** 2, mode="lines",
@@ -732,7 +732,7 @@ with tab_potentials:
                                         line=dict(color="#ffd166", width=1, dash="dash"), name="Θ(θ)"))
         fig_pth.update_layout(template=PLOTLY_TEMPLATE, title="Polar: p_θ² vs Θ(θ)",
                               xaxis_title="Proper time  τ", height=400)
-        st.plotly_chart(fig_pth, use_container_width=True, key="plot_pth")
+        st.plotly_chart(fig_pth, key="plot_pth")
 
 # ─────────────────────────────────────────────────────────────────────────
 # TAB: Examples
