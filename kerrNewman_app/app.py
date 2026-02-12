@@ -413,30 +413,61 @@ ERGO_COLOR = "#6c63ff"
 # Helper functions
 # ─────────────────────────────────────────────────────────────────────────
 
-def horizon_mesh(r_h, a_val, color, name, opacity=0.25):
-    u = np.linspace(0, 2 * np.pi, 60)
-    v = np.linspace(0, np.pi, 30)
+def _sphere_mesh3d(r_h, a_val, color, name, opacity=0.25, n_u=24, n_v=12):
+    """
+    Lightweight Mesh3d sphere (much fewer WebGL draw-calls than Surface).
+    Uses oblate-spheroidal conversion matching Boyer-Lindquist coords.
+    """
+    u = np.linspace(0, 2 * np.pi, n_u, endpoint=False)
+    v = np.linspace(0, np.pi, n_v + 1)  # include poles
     U, V = np.meshgrid(u, v)
     rho = np.sqrt(r_h ** 2 + a_val ** 2)
-    x = rho * np.sin(V) * np.cos(U)
-    y = rho * np.sin(V) * np.sin(U)
-    z = r_h * np.cos(V)
-    return go.Surface(x=x, y=y, z=z, colorscale=[[0, color], [1, color]],
-                      showscale=False, opacity=opacity, name=name, hoverinfo="name")
+    x = (rho * np.sin(V) * np.cos(U)).ravel()
+    y = (rho * np.sin(V) * np.sin(U)).ravel()
+    z = (r_h * np.cos(V)).ravel()
+    # Build triangle indices for the mesh
+    ii, jj, kk = [], [], []
+    for iv in range(n_v):
+        for iu in range(n_u):
+            p00 = iv * n_u + iu
+            p01 = iv * n_u + (iu + 1) % n_u
+            p10 = (iv + 1) * n_u + iu
+            p11 = (iv + 1) * n_u + (iu + 1) % n_u
+            ii += [p00, p00]
+            jj += [p01, p10]
+            kk += [p10, p11]
+    return go.Mesh3d(x=x, y=y, z=z, i=ii, j=jj, k=kk,
+                     color=color, opacity=opacity, name=name,
+                     hoverinfo="name", flatshading=True)
+
+
+def horizon_mesh(r_h, a_val, color, name, opacity=0.25):
+    return _sphere_mesh3d(r_h, a_val, color, name, opacity, n_u=24, n_v=12)
 
 
 def ergosphere_mesh(a_val, Q_val):
-    th = np.linspace(0.01, np.pi - 0.01, 30)
-    ph = np.linspace(0, 2 * np.pi, 60)
-    PH, TH = np.meshgrid(ph, th)
-    arg = 1 - a_val ** 2 * np.cos(TH) ** 2 - Q_val ** 2
-    r_e = np.where(arg >= 0, 1 + np.sqrt(np.maximum(arg, 0)), np.nan)
-    rho_e = np.sqrt(r_e ** 2 + a_val ** 2)
-    x = rho_e * np.sin(TH) * np.cos(PH)
-    y = rho_e * np.sin(TH) * np.sin(PH)
-    z = r_e * np.cos(TH)
-    return go.Surface(x=x, y=y, z=z, colorscale=[[0, ERGO_COLOR], [1, ERGO_COLOR]],
-                      showscale=False, opacity=0.1, name="Ergosphere", hoverinfo="name")
+    """Lightweight wireframe-style ergosphere using Scatter3d lines."""
+    traces = []
+    n_ph = 24
+    n_th = 20
+    ph_arr = np.linspace(0, 2 * np.pi, n_ph)
+    th_arr = np.linspace(0.05, np.pi - 0.05, n_th)
+    # Draw latitude rings
+    for th_val in th_arr[::4]:
+        arg = 1 - a_val ** 2 * np.cos(th_val) ** 2 - Q_val ** 2
+        if arg < 0:
+            continue
+        r_e = 1 + np.sqrt(arg)
+        rho_e = np.sqrt(r_e ** 2 + a_val ** 2)
+        xe = rho_e * np.sin(th_val) * np.cos(ph_arr)
+        ye = rho_e * np.sin(th_val) * np.sin(ph_arr)
+        ze = np.full_like(ph_arr, r_e * np.cos(th_val))
+        traces.append(go.Scatter3d(
+            x=xe, y=ye, z=ze, mode="lines",
+            line=dict(color=ERGO_COLOR, width=1.5),
+            name="Ergosphere", showlegend=(th_val == th_arr[0]),
+            hoverinfo="name"))
+    return traces
 
 
 def horizon_circle_2d(r_h, a_val, n=200):
@@ -483,8 +514,18 @@ def make_2d_fig(px, py, lx, ly, res, proj_name):
 # ─────────────────────────────────────────────────────────────────────────
 with tab_3d:
     fig3d = go.Figure()
+
+    # Downsample trajectory to at most 15 000 points for WebGL stability
+    MAX_3D_PTS = 15_000
+    n_pts = len(res.x)
+    if n_pts > MAX_3D_PTS:
+        idx = np.linspace(0, n_pts - 1, MAX_3D_PTS, dtype=int)
+        x3, y3, z3 = res.x[idx], res.y[idx], res.z[idx]
+    else:
+        x3, y3, z3 = res.x, res.y, res.z
+
     fig3d.add_trace(go.Scatter3d(
-        x=res.x, y=res.y, z=res.z,
+        x=x3, y=y3, z=z3,
         mode="lines", line=dict(color=TRAJ_COLOR, width=2), name="Geodesic"))
     fig3d.add_trace(go.Scatter3d(
         x=[res.x[-1]], y=[res.y[-1]], z=[res.z[-1]],
@@ -495,10 +536,12 @@ with tab_3d:
         fig3d.add_trace(horizon_mesh(res.r_minus, res.a, "#ff8800",
                                      f"Inner horizon r₋={res.r_minus:.2f}", opacity=0.15))
     if abs(res.a) > 1e-6:
-        fig3d.add_trace(ergosphere_mesh(res.a, res.Q_BH))
-        ang = np.linspace(0, 2 * np.pi, 200)
+        ergo_traces = ergosphere_mesh(res.a, res.Q_BH)
+        for tr in ergo_traces:
+            fig3d.add_trace(tr)
+        ang = np.linspace(0, 2 * np.pi, 100)
         fig3d.add_trace(go.Scatter3d(
-            x=res.a * np.cos(ang), y=res.a * np.sin(ang), z=np.zeros(200),
+            x=res.a * np.cos(ang), y=res.a * np.sin(ang), z=np.zeros(100),
             mode="lines", line=dict(color="white", width=4), name="Ring singularity"))
 
     rng = max(res.x.max() - res.x.min(), res.y.max() - res.y.min(),
