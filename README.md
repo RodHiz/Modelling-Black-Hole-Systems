@@ -16,3 +16,5 @@ You may wish to change the constants in order to get different patterns. Which c
 You can also find a file with all of the [interesting images](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/74be77010b388c879495f8fb79a8beca9c955bd8/images) I created.
 
 Here is the [LaTeX document](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69) if interested in further reading
+
+Here is the [web app](https://rhizmeri-kerrnewman.streamlit.app/)
