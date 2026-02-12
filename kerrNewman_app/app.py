@@ -465,7 +465,7 @@ def ergosphere_mesh(a_val, Q_val):
         traces.append(go.Scatter3d(
             x=xe, y=ye, z=ze, mode="lines",
             line=dict(color=ERGO_COLOR, width=1.5),
-            name="Ergosphere", showlegend=(th_val == th_arr[0]),
+            name="Ergosphere", showlegend=bool(th_val == th_arr[0]),
             hoverinfo="name"))
     return traces
 
