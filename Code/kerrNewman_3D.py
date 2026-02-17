@@ -147,11 +147,11 @@ def dTheta_dtheta(theta, a, E, Lz, Q_carter):
 plt.close('all')
 
 # --- Black hole parameters ---
-a    = 0.0      # Spin parameter (0 = Schwarzschild, <1 for sub-extremal)
-Q_BH = 0.3       # Black hole electric charge (set 0 for uncharged Kerr)
+a    = 0.95      # Spin parameter (0 = Schwarzschild, <1 for sub-extremal)
+Q_BH = 0.1       # Black hole electric charge (set 0 for uncharged Kerr)
 
 # --- Particle charge ---
-q = 0            # Particle charge: +1, -1, or 0 (neutral)
+q = -1            # Particle charge: +1, -1, or 0 (neutral)
 
 # Verify sub-extremal condition: a^2 + Q_BH^2 < M^2 = 1
 if a**2 + Q_BH**2 >= 1.0:
@@ -168,10 +168,10 @@ print(f"Outer horizon r+ = {r_plus:.4f}")
 print(f"Inner horizon r- = {r_minus:.4f}")
 
 # --- Initial conditions ---
-r0 = 20.0
-theta0 = np.pi / 2
+r0 = 8
+theta0 = np.pi / 3
 phi0 = 0.0
-rdot0 = -0.00001
+rdot0 = 0.0
 thetadot0 = 0.0
 
 # Circular orbit values for Kerr-Newman (approximate — use Kerr values as seed,
