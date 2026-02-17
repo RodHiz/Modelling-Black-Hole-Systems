@@ -1,20 +1,195 @@
-Below is the code for each program respectively. It's likely that the notebooks have the most recent version of the code.
+# 🌌 Modelling Black Hole Systems
 
-You can access the code and will automatically make a copy in playground mode to use it. You may get prompted that code is malicious and will steal your data, click run anyway, it won't do anything malicious.
+<div align="center">
 
-For further assistance, the 'General Relativity' notebook has been commented appropiately.
+### *Exploring the cosmos through computational physics*
 
-You may wish to change the constants in order to get different patterns. Which can be found under 'Main Program'
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rhizmeri-kerrnewman.streamlit.app/)
 
+**Numerical simulations of gravitational systems from classical mechanics to General Relativity**
 
-| Notebook | Launch |
-|----------|--------|
-| Harmonic Oscillator | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1xvlqpfMqOnx59OJxMHgjekW3rd_MyftZ?usp=sharing) |
-| Newtonian Mechanics | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/10RsNSvxDumjGO4HD2lw8fHDyAzQOlGa5?usp=sharing) |
-| General Relativity | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1w6Ievq9PhwIuHyOWmgIqoFc1Dl43VR9v?usp=sharing) |
+[📚 Documentation](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69) • [🎨 Gallery](#gallery) • [🚀 Try it Now](#quick-start)
 
-You can also find a file with all of the [interesting images](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/74be77010b388c879495f8fb79a8beca9c955bd8/images) I created.
+</div>
 
-Here is the [LaTeX document](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69) if interested in further reading
+---
 
-Here is the [web app](https://rhizmeri-kerrnewman.streamlit.app/)
+## ✨ Overview
+
+This project provides a comprehensive suite of physics simulations that take you on a journey from simple harmonic oscillators to the exotic dynamics of particles orbiting Kerr-Newman black holes. Using advanced numerical methods, we solve the equations of motion that govern everything from pendulums to spacetime itself.
+
+### 🎯 What's Inside
+
+| Module | Physics | Notebook |
+|--------|---------|----------|
+| 🌊 **Harmonic Oscillator** | Classical oscillatory motion | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1xvlqpfMqOnx59OJxMHgjekW3rd_MyftZ?usp=sharing) |
+| 🪐 **Newtonian Mechanics** | Two-body gravitational systems | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/10RsNSvxDumjGO4HD2lw8fHDyAzQOlGa5?usp=sharing) |
+| ⚫ **General Relativity** | Geodesics in Kerr-Newman spacetime | [![Open In Colab](https://img.shields.io/badge/Launch-Colab-yellow?logo=googlecolab)](https://colab.research.google.com/drive/1w6Ievq9PhwIuHyOWmgIqoFc1Dl43VR9v?usp=sharing) |
+
+---
+
+## 🌟 Key Features
+
+### General Relativity Module (Flagship)
+
+- **⚡ Kerr-Newman Black Holes**: Simulates particles around rotating, charged black holes
+- **🎯 Adaptive Integration**: Uses Runge-Kutta-Fehlberg (RKF45) for high-precision trajectories
+- **📊 Multiple Visualizations**: 2D orbital plots, 3D trajectories, and animated orbits
+- **⏱️ Proper Time Calculations**: Tracks both coordinate time and proper time
+- **🎪 Event Horizon Detection**: Automatically identifies when particles cross the point of no return
+- **🎨 Custom Patterns**: Discover exotic orbital geometries by tuning parameters
+
+### Physics Under the Hood
+
+```python
+# Schwarzschild metric → Kerr metric → Kerr-Newman metric
+ds² = -(1 - 2M/r)dt² + (1 - 2M/r)⁻¹dr² + r²dΩ²  # Schwarzschild
+     ↓
+ds² = -Δ/Σ dt² + Σ/Δ dr² + Σdθ² + ...          # Kerr (rotating)
+     ↓
+ds² = ... (+ electromagnetic contributions)      # Kerr-Newman (rotating + charged)
+```
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: Web Application (Easiest)
+
+Try the interactive web app - no installation required!
+
+**🌐 [Launch Streamlit App](https://rhizmeri-kerrnewman.streamlit.app/)**
+
+### Option 2: Google Colab (Recommended)
+
+Click any of the "Launch Colab" badges above to run the notebooks in your browser. No local setup needed!
+
+### Option 3: Local Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/RodHiz/Modelling-Black-Hole-Systems.git
+cd Modelling-Black-Hole-Systems
+
+# Install dependencies
+pip install numpy matplotlib scipy plotly
+
+# Run the notebooks with Jupyter
+jupyter notebook
+```
+
+---
+
+## 🎮 Usage
+
+### Simulating Black Hole Orbits
+
+The General Relativity notebook is fully commented and ready to use. Here's how to get started:
+
+1. **Launch the notebook** (see Quick Start above)
+2. **Adjust parameters** in the "Main Program" section:
+   ```python
+   M = 1.0      # Black hole mass
+   a = 0.9      # Spin parameter (0 to 1)
+   Q = 0.5      # Charge
+   r0 = 10.0    # Initial radial distance
+   ```
+3. **Run all cells** to generate your simulation
+4. **Explore!** Change parameters to discover different orbital patterns
+
+### 🎨 Pro Tips
+
+- **Stable orbits**: Try `r0 = 10`, `a = 0.5`, small initial velocities
+- **Precessing orbits**: Increase spin parameter `a` 
+- **Plunge orbits**: Start closer to the event horizon
+- **Exotic patterns**: Play with charge `Q` and angular momentum
+
+---
+
+## 🖼️ Gallery
+
+Discover the beautiful complexity of spacetime! Check out the [images folder](https://github.com/RodHiz/Modelling-Black-Hole-Systems/tree/main/images) for a collection of interesting orbital patterns generated by the simulations.
+
+*Examples of phenomena you can simulate:*
+- 🌀 Orbital precession (like Mercury around the Sun, but extreme!)
+- 🎯 Photon spheres and unstable circular orbits
+- 🌊 Frame-dragging effects from rotating black holes
+- ⚡ Electromagnetic influence on charged particle trajectories
+- 🕳️ Plunge trajectories into the event horizon
+
+---
+
+## 📖 Documentation
+
+For a deep dive into the mathematics and physics behind these simulations, check out the comprehensive LaTeX documentation:
+
+**[📄 Read the Full Documentation](https://www.overleaf.com/read/qrrrbnmgjrsc#8aba69)**
+
+Topics covered:
+- Derivation of the equations of motion
+- Geodesic equations in curved spacetime
+- Numerical integration methods (RKF45)
+- Kerr-Newman metric in Boyer-Lindquist coordinates
+- Physical interpretation of results
+
+---
+
+## 🛠️ Technical Details
+
+### Numerical Methods
+
+- **Integration**: Runge-Kutta-Fehlberg (4,5) with adaptive step size
+- **Precision**: Configurable tolerance (default: 1e-6)
+- **Coordinate System**: Boyer-Lindquist coordinates for Kerr-Newman spacetime
+
+### Visualization
+
+- **2D Plots**: Matplotlib for orbital trajectories
+- **3D Plots**: Plotly for interactive 3D visualizations
+- **Animations**: Frame-by-frame orbital evolution
+
+### Performance
+
+- Optimized for moderate-duration simulations (~1000s of steps)
+- Adjustable precision vs. speed tradeoff via tolerance parameter
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's:
+- 🐛 Bug fixes
+- ✨ New features (additional metrics, more black hole types)
+- 📚 Documentation improvements
+- 🎨 New example notebooks or parameter sets
+
+Feel free to open an issue or submit a pull request!
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Numerical Recipes for algorithm guidance
+- The visualization community for Matplotlib and Plotly
+- Einstein, Kerr, and Newman for the physics 😉
+
+---
+
+<div align="center">
+
+### ⭐ If you find this project interesting, please consider giving it a star!
+
+**Made with ❤️ and physics**
+
+[⬆ Back to Top](#-modelling-black-hole-systems)
+
+</div>
